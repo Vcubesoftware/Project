@@ -1,0 +1,46 @@
+{% extends 'Base.html' %}
+<style>
+    table {
+        border-style: solid;
+    }
+</style>
+
+<body>
+
+    <!-- <p>VCube software solutions</p>
+    <p>we are providing corporate training</p>
+
+    <form action="output" method="post">
+        {% csrf_token %}
+        <p>Enter employee number: <input type="text" name='sno' /></p>
+        <p><input type="submit" name='submit'></p>
+
+        <p><button type="submit" name="all">all</button></p>
+    </form>
+
+    <div>
+        <form action="delete_emp" method='post'>
+            {% csrf_token %}
+            <p>Enter employee number to delete: <input type="text" name='eno'></p>
+            <input type="submit" name='delete' value='delete'>
+        </form>
+
+    </div>  -->
+
+
+    {% block left %}
+    <form action="input" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">SUBMIT</button>
+
+        <a href=" ">Home</a>
+    </form>
+
+    {% for m in messages %}
+
+    <p>{{m}}</p>
+    {% endfor %}
+
+    {% endblock %}
+</body>
