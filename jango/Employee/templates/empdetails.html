@@ -1,9 +1,12 @@
 {% extends 'Base.html' %}
+{% load static %}
 <style>
     table {
         border-style: solid;
     }
 </style>
+
+<script src="{% static 'js/validate.js' %}"></script>
 
 <body>
 
@@ -32,7 +35,7 @@
     <form action="input" method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">SUBMIT</button>
+        <button type="submit" onclick = "validatesal()"">SUBMIT</button>
 
         <a href=" ">Home</a>
     </form>

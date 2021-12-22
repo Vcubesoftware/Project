@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.contrib.auth import authenticate
 from django.http import HttpResponse
 from .models import Employee
 from django.contrib import messages
@@ -93,3 +94,20 @@ def deleteEmp(request):
         Employee.objects.delete(empno=no)
 
     return render(request, 'delete.html')
+
+
+def login(request):
+    if request.method == 'POST':
+        user = request.POST['user']
+        pwd = request.POST['pwd']
+
+        # authenticate(request,*args,**kwargs)
+        valid = authenticate(request, username=user, password=pwd)
+        print(valid)
+
+        if valid is not None:
+            return render(request, 'home.html')
+        else:
+            return render(request, 'login.html')
+
+    return render(request, 'login.html')
