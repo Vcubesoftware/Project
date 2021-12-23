@@ -1,13 +1,34 @@
 from django.shortcuts import render
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from .models import Employee
 from django.contrib import messages
-from .forms import EmpForm
+from .forms import EmpForm, CreateUser
 
 # Create your views here.
 
 
+def register(request):
+    form = CreateUser()
+
+    if request.method == "POST":
+
+        obj = CreateUser(request.POST)
+        print(request.POST)
+        if obj.is_valid():
+            obj.save()
+
+            return render(request, 'login.html')
+        else:
+            return render(request, 'register.html')
+
+    context = {'userform': form}
+    return render(request, 'register.html', context)
+
+
+@login_required(login_url='login')
 def home(request):
     return render(request, 'home.html')
 
@@ -96,18 +117,30 @@ def deleteEmp(request):
     return render(request, 'delete.html')
 
 
-def login(request):
+def userLogin(request):
     if request.method == 'POST':
         user = request.POST['user']
         pwd = request.POST['pwd']
 
         # authenticate(request,*args,**kwargs)
         valid = authenticate(request, username=user, password=pwd)
-        print(valid)
+        # print(valid)
 
         if valid is not None:
+            # login(request)
+            login(request, valid)
+
             return render(request, 'home.html')
         else:
             return render(request, 'login.html')
 
     return render(request, 'login.html')
+
+
+def userLogout(request):
+
+    if request.user.is_authenticated:
+        logout(request)
+        return render(request, 'login.html')
+    else:
+        return render(request, 'home.html')

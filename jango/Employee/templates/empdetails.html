@@ -35,9 +35,9 @@
     <form action="input" method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" onclick = "validatesal()"">SUBMIT</button>
+        <button type="submit" onclick="validatesal()"">SUBMIT</button>
 
-        <a href=" ">Home</a>
+        <a href=" home">Home</a>
     </form>
 
     {% for m in messages %}

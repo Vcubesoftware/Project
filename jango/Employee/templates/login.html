@@ -1,10 +1,12 @@
 {% extends 'Base.html' %}
 
 {% block left %}
-<form action="" method='post'>
+<form action="login" method='post'>
     {% csrf_token %}
     <p>Enter user: <input type="text" name='user' /></p>
     <p>Enter Password: <input type="password" name='pwd'></p>
     <input type="submit" name='submit'>
+
+    <a href="register">Sign Up</a>
 </form>
 {% endblock%}
