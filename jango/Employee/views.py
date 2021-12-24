@@ -12,7 +12,7 @@ from .forms import EmpForm, CreateUser
 
 def register(request):
     form = CreateUser()
-
+    context = {'userform': form}
     if request.method == "POST":
 
         obj = CreateUser(request.POST)
@@ -22,14 +22,17 @@ def register(request):
 
             return render(request, 'login.html')
         else:
-            return render(request, 'register.html')
+            print('form is not valid')
+            print(obj.errors)
+            return render(request, 'register.html', context)
 
-    context = {'userform': form}
     return render(request, 'register.html', context)
 
 
 @login_required(login_url='login')
 def home(request):
+    print(dir(request.session))
+
     return render(request, 'home.html')
 
 
@@ -129,7 +132,7 @@ def userLogin(request):
         if valid is not None:
             # login(request)
             login(request, valid)
-
+            request.session['username'] = user
             return render(request, 'home.html')
         else:
             return render(request, 'login.html')
@@ -137,6 +140,7 @@ def userLogin(request):
     return render(request, 'login.html')
 
 
+@login_required(login_url='login')
 def userLogout(request):
 
     if request.user.is_authenticated:

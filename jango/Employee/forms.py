@@ -1,6 +1,7 @@
 from django import forms
 from django.forms import ModelForm, Form
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
 
 from .models import Employee
 
@@ -18,8 +19,8 @@ class EmpForm(Form):
     joining_date = forms.DateField(widget=forms.SelectDateWidget)
 
 
-class CreateUser(ModelForm):
+class CreateUser(UserCreationForm):
     class Meta:
         model = User
 
-        fields = ['username', 'email', 'password']
+        fields = ['username', 'email', 'password1', 'password2']

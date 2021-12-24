@@ -3,8 +3,18 @@
 {% block left %}
 <form action="register" method='post'>
     {% csrf_token %}
-    {{userform.as_p}}
+    <!--{{userform.as_p}} -->
+
+    {% for field in userform %}
+
+    <p>{{field.label_tag}}{{field}}</p>
+
+    {% endfor %}
 
     <input type="submit" name="userCreate">
 </form>
+
+<div>
+    <a href="login">Sign in</a>
+</div>
 {% endblock %}
