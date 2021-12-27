@@ -6,10 +6,39 @@ from django.http import HttpResponse
 from .models import Employee
 from django.contrib import messages
 from .forms import EmpForm, CreateUser
+from django.views.generic import View, ListView
 
 # Create your views here.
 
 
+class RegisterView(View):
+    context = {}
+    form = CreateUser()
+    context['userform'] = form
+
+    def get(self, request, *args, **kwargs):
+
+        return render(request, 'register.html', self.context)
+
+    def post(self, request, *args, **kwargs):
+
+        form = CreateUser(request.POST)
+
+        if form.is_valid():
+            form.save()
+
+            messages.success(request, 'User created successfully')
+            return render(request, 'login.html')
+
+        else:
+            print(form.errors)
+            messages.error(request, 'User is not created')
+            return render(request, 'register.html', self.context)
+
+  # def post(self,):
+
+
+'''
 def register(request):
     form = CreateUser()
     context = {'userform': form}
@@ -27,6 +56,7 @@ def register(request):
             return render(request, 'register.html', context)
 
     return render(request, 'register.html', context)
+    '''
 
 
 @login_required(login_url='login')
@@ -36,6 +66,7 @@ def home(request):
     return render(request, 'home.html')
 
 
+@login_required(login_url='login')
 def empDetails(request):
 
     # return HttpResponse(' I this is my first response')
@@ -55,7 +86,7 @@ def empDetails(request):
 
             print(eno, ename, salary) '''
 
-            #obj = EmpForm(request.POST)
+            # obj = EmpForm(request.POST)
 
             # if obj.is_valid():
 
@@ -132,7 +163,6 @@ def userLogin(request):
         if valid is not None:
             # login(request)
             login(request, valid)
-            request.session['username'] = user
             return render(request, 'home.html')
         else:
             return render(request, 'login.html')
@@ -148,3 +178,7 @@ def userLogout(request):
         return render(request, 'login.html')
     else:
         return render(request, 'home.html')
+
+
+class AllData(ListView):
+    model = Employee

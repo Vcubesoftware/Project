@@ -14,6 +14,9 @@
     <input type="submit" name="userCreate">
 </form>
 
+{% for m in messages %}
+<p>{{m}}</p>
+{% endfor %}
 <div>
     <a href="login">Sign in</a>
 </div>
